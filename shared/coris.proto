@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+service CorisService {
+  rpc SendCommand (CommandRequest) returns (CommandResponse);
+}
+
+message CommandRequest {
+  string text = 1;
+  bool is_voice = 2;
+}
+
+message CommandResponse {
+  string speech_feedback = 1;
+  string mode = 2; // "REPLACE" atau "APPEND"
+  repeated Component assembly = 3;
+}
+
+message Component {
+  string id = 1;
+  string type = 2;      // box, sphere, cylinder, cone
+  repeated float position = 3; // [x, y, z]
+  repeated float scale = 4;    // [x, y, z]
+  string color = 5;     // Hex code
+  MaterialProps material = 6;
+}
+
+message MaterialProps {
+  float roughness = 1;
+  float metalness = 2;
+  float clearcoat = 3;
+}
