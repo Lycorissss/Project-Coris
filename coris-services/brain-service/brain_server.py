@@ -28,12 +28,9 @@ class CorisService(coris_pb2_grpc.CorisServiceServicer):
 
             # --- PERHATIKAN INDENTASI DI SINI, BANG ---
             for item in data.get("assembly", []):
-                # Baris di bawah ini harus menjorok ke dalam (16 spasi dari kiri)
                 component = coris_pb2.Component(
                     id=str(item.get("id", "obj")),
                     type=item.get("type", "box"),
-                    position=[float(x) for x in item.get("position", [0.0, 0.0, 0.0])],
-                    scale=[float(s) for s in item.get("scale", [1.0, 1.0, 1.0])],
                     color=str(item.get("color", "#ffffff")),
                     material=coris_pb2.MaterialProps(
                         roughness=float(item.get("material", {}).get("roughness", 0.5)),
@@ -41,6 +38,14 @@ class CorisService(coris_pb2_grpc.CorisServiceServicer):
                         clearcoat=float(item.get("material", {}).get("clearcoat", 0.0)),
                     ),
                 )
+                # Gunakan extend untuk repeated fields
+                component.position.extend(
+                    [float(x) for x in item.get("position", [0.0, 0.0, 0.0])]
+                )
+                component.scale.extend(
+                    [float(s) for s in item.get("scale", [1.0, 1.0, 1.0])]
+                )
+
                 response.assembly.append(component)
 
             print(f"✅ AI Berhasil merakit {len(response.assembly)} komponen.")
@@ -140,7 +145,7 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     coris_pb2_grpc.add_CorisServiceServicer_to_server(CorisService(), server)
     server.add_insecure_port("[::]:50051")
-    print("🚀 Otak Coris (Python) AKTIF di port 50051...")
+    print("🚀 The Brain Coris (Python) AKTIF di port 50051...")
     server.start()
     server.wait_for_termination()
 
