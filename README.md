@@ -27,6 +27,16 @@ Sistem ini terdiri dari tiga komponen utama yang saling terhubung:
   - Menghitung koordinat posisi, skala, dan material secara presisi.
   - Logika perakitan objek (Meja, Kursi, Robot, dll).
 
+## 📊 Manajemen Port
+
+| Service | Port | Protokol | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| **Coris Web** | `3000` | HTTP | Frontend website antarmuka utama |
+| **Coris Orchestrator** | `8080` | WebSocket | Jalur komunikasi data real-time |
+| **Coris Brain** | `50051` | gRPC | Layanan logika AI (Python) |
+| **Coris Mobile** | `8081` | Metro | Bundler untuk aplikasi HP (Eyes) |
+
+
 ## 🚀 Cara Menjalankan
 
 1. **Jalankan Otak (Python):**
