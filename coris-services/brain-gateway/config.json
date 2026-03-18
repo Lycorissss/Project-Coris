@@ -1,0 +1,8 @@
+{
+  "workspace_path": "./",
+  "memory_path": "./memory",
+  "server": {
+    "port": 9000,
+    "host": "0.0.0.0"
+  }
+}
